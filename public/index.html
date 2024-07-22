@@ -1,0 +1,72 @@
+<!-- public/index.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Librery</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 0;
+            padding: 20px;
+        }
+        .product {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 20px;
+            margin: 10px;
+            width: 200px;
+            box-shadow: 2px 2px 12px rgba(0,0,0,0.1);
+        }
+        .product img {
+            width: 100%;
+            height: auto;
+        }
+        .product h2 {
+            font-size: 1.2em;
+            margin: 10px 0;
+        }
+        .product p {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <script>
+        async function fetchProducts() {
+            const response = await fetch('/librery');
+            const products = await response.json();
+
+            const container = document.body;
+            products.forEach(product => {
+                const productElement = document.createElement('div');
+                productElement.className = 'product';
+
+                const img = document.createElement('img');
+                img.src = product.image;
+                productElement.appendChild(img);
+
+                const name = document.createElement('h2');
+                name.textContent = product.name;
+                productElement.appendChild(name);
+
+                const price = document.createElement('p');
+                price.textContent = `Precio: $${product.price}`;
+                productElement.appendChild(price);
+
+                const category = document.createElement('p');
+                category.textContent = `Categoria: ${product.category}`;
+                productElement.appendChild(category);
+
+                container.appendChild(productElement);
+            });
+        }
+
+        fetchProducts();
+    </script>
+</body>
+</html>
